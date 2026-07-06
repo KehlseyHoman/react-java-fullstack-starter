@@ -1,13 +1,22 @@
 # Chore & Bill Tracker (Starter Project)
 
-A small full-stack app for roommates/couples to track shared chores (and, once you
-build it, shared bills). This is a **learning starter** — the chores half works
-end-to-end already; everything else is a guided exercise.
+Welcome! This is a small full-stack app for roommates/couples to track shared
+chores (and, once you build it, shared bills) — built as a hands-on way to
+learn **React** and **Java** together.
+
+It's not a tutorial you read — it's a working app with real gaps in it on
+purpose. The chore-tracking half already runs end-to-end, frontend talking to
+backend. From there, a roadmap at the bottom walks you through adding
+features yourself, roughly easiest to hardest, each one teaching you something
+new about React, Java, or both.
 
 **Stack:**
 - Frontend: React (JavaScript) + Vite
 - Backend: Java 17 + Spring Boot + Spring Data JPA
 - Database: H2 (in-memory — no install needed, resets on restart)
+
+No prior Spring Boot or React experience is assumed, though you should be
+comfortable with basic JavaScript and Java syntax going in.
 
 ---
 
@@ -140,8 +149,8 @@ next occurrence when a chore is marked done.
   bit of scheduling logic.
 
 ### 6. Swap H2 for a real database
-Move to PostgreSQL (or keep using Supabase, since you're already comfortable
-with it) so data survives a restart.
+Move to PostgreSQL, or a hosted Postgres provider like Supabase, so data
+survives a restart instead of resetting every time.
 - **Teaches:** environment-specific config (`application-dev.properties` vs
   `application-prod.properties`), connection strings, not hardcoding secrets.
 
@@ -162,7 +171,8 @@ Add simple login so each roommate only sees their own household's data.
 
 ### 10. Deploy it
 Frontend to Vercel/Netlify, backend to Railway/Render, database to Supabase —
-same pattern you've already used on your other projects.
+a common, free-tier-friendly combo for getting a full-stack side project
+live on the internet.
 
 ---
 
