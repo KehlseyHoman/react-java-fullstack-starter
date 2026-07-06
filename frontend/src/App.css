@@ -1,103 +1,359 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --cork: #c08552;
+  --cork-dark: #a56b3e;
+  --paper: #fffdf6;
+  --ink: #2b2118;
+  --ink-muted: #7c6a55;
+  --pin: #3d6b5c;
+  --pin-highlight: #6b9c8c;
+  --stamp: #b23a2e;
+  --shadow: rgba(40, 24, 8, 0.28);
+
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f4f5f7;
-  color: #1f2933;
+  font-family: var(--font-body);
+  color: var(--ink);
+  /* Cork texture: layered radial dots over the base brown */
+  background-color: var(--cork);
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--cork-dark) 0, transparent 2px),
+    radial-gradient(circle at 70% 60%, var(--cork-dark) 0, transparent 2px),
+    radial-gradient(circle at 40% 80%, var(--cork-dark) 0, transparent 1.5px),
+    radial-gradient(circle at 85% 15%, var(--cork-dark) 0, transparent 1.5px),
+    radial-gradient(circle at 10% 65%, var(--cork-dark) 0, transparent 1.5px);
+  background-size: 140px 140px;
 }
 
-.app {
-  max-width: 480px;
+.app-shell {
+  min-height: 100vh;
+}
+
+/* ---------- Tab navigation (Board / Instructions) ---------- */
+.view-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-top: 1.5rem;
+}
+
+.view-tabs button {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 253, 246, 0.35);
+  color: var(--paper);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.view-tabs button.active {
+  background: var(--paper);
+  color: var(--pin);
+}
+
+.view-tabs button:hover:not(.active) {
+  background: rgba(255, 253, 246, 0.55);
+}
+
+.view-tabs button:focus-visible {
+  outline: 3px solid var(--pin-highlight);
+  outline-offset: 2px;
+}
+
+.board {
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 2.5rem 1.5rem 4rem;
 }
 
-h1 {
-  margin-bottom: 0.25rem;
+/* ---------- Header ---------- */
+.board-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.board-header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  color: var(--paper);
+  margin: 0 0 0.4rem;
+  text-shadow: 0 2px 0 var(--shadow);
 }
 
 .subtitle {
-  margin-top: 0;
-  color: #6b7280;
-  font-size: 0.9rem;
-}
-
-.add-form {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-.add-form input {
-  flex: 1;
-  min-width: 120px;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  color: var(--paper);
+  opacity: 0.85;
   font-size: 0.95rem;
-}
-
-.add-form button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background: #4f46e5;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.add-form button:hover {
-  background: #4338ca;
-}
-
-.chore-list {
-  list-style: none;
-  padding: 0;
   margin: 0;
+}
+
+/* ---------- Add-chore form (styled as a blank card) ---------- */
+.new-card-form {
+  background: var(--paper);
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin: 0 auto 2.5rem;
+  max-width: 520px;
+  box-shadow: 0 10px 24px var(--shadow);
+  position: relative;
+}
+
+.new-card-form::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--pin-highlight), var(--pin) 70%);
+  box-shadow: 0 3px 4px var(--shadow);
+}
+
+.new-card-fields {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.chore-list li {
-  background: white;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-
-.chore-list li.done .chore-title {
-  text-decoration: line-through;
-  color: #9ca3af;
-}
-
-.chore-list li label {
-  display: flex;
-  align-items: center;
   gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.new-card-fields input {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #e2d9c8;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: #fffef9;
+  color: var(--ink);
+}
+
+.new-card-fields input:focus-visible,
+.new-card-form button:focus-visible,
+.chore-card input:focus-visible {
+  outline: 3px solid var(--pin-highlight);
+  outline-offset: 2px;
+}
+
+.new-card-form button {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--pin);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
 
-.chore-assignee {
-  color: #6b7280;
-  font-size: 0.85rem;
+.new-card-form button:hover {
+  background: #2f5548;
 }
 
-.empty {
-  color: #9ca3af;
-  font-style: italic;
-  box-shadow: none !important;
-  background: transparent !important;
+/* ---------- Status / error text ---------- */
+.status-text {
+  text-align: center;
+  color: var(--paper);
 }
 
 .error {
-  color: #dc2626;
-  background: #fee2e2;
-  padding: 0.5rem 0.75rem;
+  text-align: center;
+  background: var(--paper);
+  color: var(--stamp);
+  font-weight: 600;
+  padding: 0.6rem 1rem;
   border-radius: 6px;
+  max-width: 520px;
+  margin: 0 auto 1.5rem;
+}
+
+/* ---------- Card grid ---------- */
+.card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.75rem 1.25rem;
+}
+
+.empty-note {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--paper);
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.chore-card {
+  position: relative;
+  background: var(--paper);
+  border-radius: 3px;
+  padding: 1.4rem 1rem 1.1rem;
+  box-shadow: 0 8px 16px var(--shadow);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.15s ease;
+}
+
+.chore-card:hover {
+  transform: rotate(var(--tilt, 0deg)) translateY(-3px);
+}
+
+.pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--pin-highlight), var(--pin) 70%);
+  box-shadow: 0 3px 4px var(--shadow);
+}
+
+.chore-card label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.chore-card input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pin);
+}
+
+.chore-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+.chore-card.is-done .chore-title {
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--stamp);
+}
+
+.chore-assignee {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  background: #f1ead9;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+/* Rubber-stamp "Done" mark */
+.stamp {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0.3rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stamp);
+  border: 2px solid var(--stamp);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  transform: rotate(-9deg);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* ---------- Instructions page ---------- */
+.pinned-sheet {
+  position: relative;
+  background: var(--paper);
+  border-radius: 6px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 10px 24px var(--shadow);
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.pinned-sheet section + section {
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px dashed #e2d9c8;
+}
+
+.pinned-sheet h2 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin: 0 0 0.6rem;
+  color: var(--pin);
+}
+
+.pinned-sheet ul,
+.pinned-sheet ol {
+  margin: 0;
+  padding-left: 1.3rem;
+  line-height: 1.6;
+}
+
+.pinned-sheet li {
+  margin-bottom: 0.4rem;
+}
+
+.pinned-sheet code {
+  background: #f1ead9;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.section-hint {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .chore-card,
+  .new-card-form button,
+  .view-tabs button {
+    transition: none;
+  }
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 420px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
 }
