@@ -1,5 +1,7 @@
 # Chore & Bill Tracker (Starter Project)
 
+![Demo of the chore board: pinning a chore, checking it off, and the Instructions tab](docs/demo.gif)
+
 Welcome! This is a small full-stack app for roommates/couples to track shared
 chores (and, once you build it, shared bills) — built as a hands-on way to
 learn **React** and **Java** together.
@@ -94,6 +96,8 @@ no longer applies.
 
 ```
 chore-bill-tracker/
+├── docs/
+│   └── demo.gif
 ├── backend/
 │   └── src/main/java/com/choretracker/
 │       ├── ChoreTrackerApplication.java   # entry point
@@ -103,9 +107,12 @@ chore-bill-tracker/
 │       └── config/CorsConfig.java         # allows the frontend to call the API
 └── frontend/
     └── src/
-        ├── App.jsx    # all the UI + fetch calls live here for now
+        ├── App.jsx                    # top-level component; switches Board/Instructions
         ├── App.css
-        └── main.jsx   # React entry point
+        ├── main.jsx                   # React entry point
+        └── components/
+            ├── ChoreBoard.jsx         # the working chore-tracking UI + fetch calls
+            └── Instructions.jsx       # in-app quick-reference version of this README
 ```
 
 ---
